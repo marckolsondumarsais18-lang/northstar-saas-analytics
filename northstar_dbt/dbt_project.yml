@@ -1,0 +1,12 @@
+name: northstar_dbt
+
+profile: northstar_dbt
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+flags:
+  require_generic_test_arguments_property: true

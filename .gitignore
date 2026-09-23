@@ -1,0 +1,20 @@
+# Virtual Environments
+.venv/
+
+# Private key files
+rsa_key.p8
+rsa_key_from_private.pub
+rsa_key.pub
+    
+# Raw data files
+data
+
+# Notebooks folder
+notebooks/
+
+# Local dbt execution logs
+logs/
+
+# Not ready to commit 
+05_upload_raw_files.sql
+copy_into.sql
