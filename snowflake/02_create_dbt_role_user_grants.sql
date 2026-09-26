@@ -90,11 +90,11 @@ DEFAULT_WAREHOUSE = TRANSFORM_WH
 COMMENT = 'Service user for all Northstar dbt operations'; 
 
 -- Assign DBT_ROLE to DBT_USER
-
 -- Role context
 USE ROLE SECURITYADMIN;
 
 GRANT ROLE DBT_ROLE 
     TO USER DBT_USER;
+
 
 

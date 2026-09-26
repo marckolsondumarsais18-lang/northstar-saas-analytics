@@ -9,7 +9,7 @@ My objective is to execute on two analytical tracks:
 - Analytics Engineering — Ingest, transform, and dimensionally model the disparate raw sources.
 - Data Analysis — Leverage the modeled foundation to provide data-driven business recommendations.
 
-## Key Business Questions That will Be Answered
+## Core Business Questions
 - How many active customers do we have each month?
 - How is monthly recurring revenue (MRR) changing?
 - Which customer cohorts retain best?
