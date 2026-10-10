@@ -1,0 +1,67 @@
+version: 2
+
+models:
+
+- name: stg_plans
+  description: "Standardized and type-cast plan records extracted from the raw VARIANT landing table. Each row represents a single source plan record."
+  
+  columns:
+  - name: plan_id
+    description: "Trimmed unique identifier for a plan."
+    data_tests:
+    - not_null
+    - unique
+
+  - name: plan_name
+    description: "Plan name, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+
+  - name: plan_status
+    description: "Plan status, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['active', 'retired']
+
+  - name: plan_tier
+    description: "Plan tier, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments: 
+         values: ['starter', 'pro', 'enterprise']
+
+  - name: plan_rank
+    description: "Plan ranking value, trimmed and cast to DECIMAL(18,0)."
+    data_tests:
+    - not_null
+
+  - name: plan_price
+    description: "Plan price, trimmed and cast to DECIMAL(18,2)."
+    data_tests:
+    - not_null
+
+  - name: plan_billing_frequency
+    description: "Plan billing frequency, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['monthly', 'annual']
+
+  - name: plan_created_at
+    description: "Plan creation timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+
+  - name: source_file
+    description: "Original source file loaded into Snowflake."
+    data_tests:
+    - not_null
+
+  - name: raw_loaded_at
+    description: "Timestamp when the raw record was loaded."
+    data_tests:
+    - not_null

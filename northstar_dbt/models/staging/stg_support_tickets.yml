@@ -1,0 +1,70 @@
+version: 2
+
+models:
+
+- name: stg_support_tickets
+  description: "Standardized and type-cast support ticket records extracted from the raw VARIANT landing table. Each row represents a single source support ticket record."
+ 
+  columns:
+  - name: ticket_id
+    description: "Trimmed unique identifier for a support ticket."
+    data_tests:
+    - not_null
+    - unique
+
+  - name: account_id
+    description: "Trimmed source account identifier associated with the support ticket."
+    data_tests:
+    - not_null
+
+  - name: workspace_id
+    description: "Trimmed source workspace identifier associated with the support ticket."
+    data_tests:
+    - not_null
+
+  - name: user_id
+    description: "Trimmed source user identifier associated with the support ticket."
+    data_tests:
+    - not_null
+
+  - name: ticket_category
+    description: "Support ticket category, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['account management', 'billing', 'technical']
+          
+  - name: ticket_status
+    description: "Support ticket status, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['open', 'pending', 'resolved', 'closed']
+
+  - name: ticket_channel
+    description: "Support ticket channel, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['email', 'chat', 'web', 'phone']
+
+  - name: ticket_satisfaction_score
+    description: "Support ticket satisfaction score, trimmed and cast to DECIMAL(18,0). Null values are allowed when the source does not provide a score."
+
+  - name: ticket_created_at
+    description: "Support ticket creation timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+
+  - name: source_file
+    description: "Original source file loaded into Snowflake."
+    data_tests:
+    - not_null
+
+  - name: raw_loaded_at
+    description: "Timestamp when the raw record was loaded."
+    data_tests:
+    - not_null

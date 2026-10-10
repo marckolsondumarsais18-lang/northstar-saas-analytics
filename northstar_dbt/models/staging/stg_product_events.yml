@@ -1,0 +1,69 @@
+version: 2
+
+models:
+
+- name: stg_product_events
+  description: "Standardized and type-cast product event records extracted from the raw VARIANT landing table. Each row represents a single source product event record."
+  
+  columns:
+  - name: event_id
+    description: "Trimmed unique identifier for a product event."
+    data_tests:
+    - not_null
+    - unique
+
+  - name: account_id
+    description: "Trimmed source account identifier associated with the product event."
+    data_tests:
+    - not_null
+
+  - name: workspace_id
+    description: "Trimmed source workspace identifier associated with the product event."
+
+  - name: user_id
+    description: "Trimmed source user identifier associated with the product event."
+
+  - name: event_name
+    description: "Product event name, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+
+  - name: event_feature
+    description: "Product feature associated with the event, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+
+  - name: event_session
+    description: "Trimmed product session identifier, converted to lowercase. Null values are expected when the source does not provide a session identifier."
+
+  - name: test_flag
+    description: "Source test-event flag, trimmed and converted to lowercase text."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['true', 'false']
+
+  - name: event_occurred_at
+    description: "Product event occurrence timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+
+  - name: event_recorded_at
+    description: "Timestamp when the product event was recorded, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+    - date_order:
+        arguments:
+          comparison_column: event_occurred_at
+          key_column: event_id
+
+  - name: source_file
+    description: "Original source file loaded into Snowflake."
+    data_tests:
+    - not_null
+
+  - name: raw_loaded_at
+    description: "Timestamp when the raw record was loaded."
+    data_tests:
+    - not_null

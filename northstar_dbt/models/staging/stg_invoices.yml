@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: stg_invoices
+    description: "Standardized and type-cast invoice records extracted from the raw VARIANT landing table. Each row represents a single source invoice record."
+
+    columns:
+      - name: invoice_id
+        description: "Trimmed unique identifier for the invoice."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: "Trimmed source account identifier for the invoice."
+        data_tests:
+          - not_null
+
+      - name: subscription_id
+        description: "Trimmed source subscription identifier for the invoice."
+        data_tests:
+          - not_null
+
+      - name: invoice_amount
+        description: "Total invoice amount in the source currency, trimmed and cast to DECIMAL(18,2)."      
+        data_tests:
+          - not_null
+
+      - name: invoice_paid_amount
+        description: "Amount paid against the invoice, trimmed and cast to DECIMAL(18,2)."
+        data_tests:
+          - not_null
+
+      - name: invoice_remaining_amount
+        description: "Remaining amount due on the invoice, trimmed and cast to DECIMAL(18,2)."
+        data_tests:
+          - not_null
+
+      - name: invoice_status
+        description: "Source invoice status trimmed and converted to lowercase."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['paid', 'past_due', 'open', 'void']
+
+      - name: invoice_issued_at
+        description: "Invoice issue timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+        data_tests:
+          - not_null
+
+      - name: invoice_due_at
+        description: "Invoice due timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+        data_tests:
+          - not_null
+          - date_order:
+              arguments:
+                comparison_column: invoice_issued_at
+                key_column: invoice_id
+
+      - name: source_file
+        description: "Original source file loaded into Snowflake."
+        data_tests:
+          - not_null
+
+      - name: raw_loaded_at
+        description: "Timestamp when the raw record was loaded into Snowflake."
+        data_tests:
+          - not_null

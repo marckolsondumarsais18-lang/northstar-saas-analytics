@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: northstar_raw
+    database: NORTHSTAR_DB
+    schema: RAW
+    tables:
+      - name: accounts
+        identifier: ACCOUNTS
+
+      - name: invoices
+        identifier: INVOICES
+
+      - name: payment_attempts
+        identifier: PAYMENT_ATTEMPTS
+
+      - name: plans
+        identifier: PLANS
+
+      - name: product_events
+        identifier: PRODUCT_EVENTS
+
+      - name: subscriptions
+        identifier: SUBSCRIPTIONS
+
+      - name: subscription_history
+        identifier: SUBSCRIPTION_HISTORY
+
+      - name: users
+        identifier: USERS
+        
+      - name: support_tickets
+        identifier: SUPPORT_TICKETS
+
+      - name: workspaces
+        identifier: WORKSPACES
+
+      - name: workspace_memberships
+        identifier: WORKSPACE_MEMBERSHIPS

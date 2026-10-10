@@ -8,5 +8,10 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+models:
+  northstar_dbt:
+    staging:
+      +materialized: view
+
 flags:
   require_generic_test_arguments_property: true

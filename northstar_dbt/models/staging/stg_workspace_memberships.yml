@@ -1,0 +1,62 @@
+version: 2
+
+models:
+
+- name: stg_workspace_memberships
+  description: "Standardized and type-cast workspace membership records extracted from the raw VARIANT landing table. Each row represents a single source workspace membership record."
+  
+  columns:
+  - name: membership_id
+    description: "Trimmed unique identifier for a workspace membership."
+    data_tests:
+    - not_null
+    - unique
+
+  - name: workspace_id
+    description: "Trimmed source workspace identifier associated with the membership."
+    data_tests:
+    - not_null
+
+  - name: user_id
+    description: "Trimmed source user identifier associated with the membership."
+    data_tests:
+    - not_null
+
+  - name: membership_role
+    description: "Workspace membership role, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['admin', 'member', 'viewer']
+        
+  - name: membership_status
+    description: "Workspace membership status, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['active', 'removed']
+
+  - name: membership_joined_at
+    description: "Workspace membership join timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+
+  - name: membership_left_at
+    description: "Workspace membership departure timestamp, trimmed and parsed as TIMESTAMP_NTZ. Null values are allowed for active or ongoing memberships."
+    data_tests:
+    - date_order:
+        arguments:
+          comparison_column: membership_joined_at
+          key_column: membership_id
+
+  - name: source_file
+    description: "Original source file loaded into Snowflake."
+    data_tests:
+    - not_null
+
+  - name: raw_loaded_at
+    description: "Timestamp when the raw record was loaded."
+    data_tests:
+    - not_null

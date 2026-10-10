@@ -1,0 +1,41 @@
+version: 2
+
+models:
+
+- name: stg_workspaces
+  description: "Standardized and type-cast workspace records extracted from the raw VARIANT landing table. Each row represents a single source workspace record."
+  
+  columns:
+  - name: workspace_id
+    description: "Trimmed unique identifier for a workspace."
+    data_tests:
+    - not_null
+    - unique
+
+  - name: account_id
+    description: "Trimmed source account identifier associated with the workspace."
+    data_tests:
+    - not_null
+
+  - name: workspace_status
+    description: "Workspace status, trimmed and converted to lowercase."
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: ['active', 'suspended']
+        
+  - name: workspace_activated_at
+    description: "Workspace activation timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+    data_tests:
+    - not_null
+
+  - name: source_file
+    description: "Original source file loaded into Snowflake."
+    data_tests:
+    - not_null
+
+  - name: raw_loaded_at
+    description: "Timestamp when the raw record was loaded."
+    data_tests:
+    - not_null

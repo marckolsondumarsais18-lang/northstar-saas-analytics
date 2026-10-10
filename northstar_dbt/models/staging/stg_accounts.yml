@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_accounts
+    description: "Standardized and type-cast account records extracted from the raw VARIANT landing table. Each row represents a single source account entity."
+    
+    columns:
+      - name: account_id
+        description: "Trimmed unique identifier for an account"
+        data_tests:
+          - not_null
+          - unique 
+        
+      - name: account_name
+        description: "Source account name, trimmed."
+        data_tests:
+          - not_null
+
+      - name: account_status
+        description: "Source account status, trimmed and converted to lowercase."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'churned', 'trialing']
+            
+      - name: industry
+        description: "Source account industry name, trimmed and converted to lowercase."
+        data_tests:
+          - not_null
+      
+      - name: country_code
+        description: "Source account country code, trimmed and converted to uppercase."
+        data_tests:
+          - not_null
+
+      - name: created_at
+        description: "Account creation timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+        data_tests:
+        - not_null
+
+      - name: updated_at
+        description: "Account update timestamp, trimmed and parsed as TIMESTAMP_NTZ."
+        data_tests:
+          - date_order:
+              arguments:
+                comparison_column: created_at
+                key_column: account_id
+            
+
+      - name: source_file
+        description: "Original source file loaded into Snowflake."
+        data_tests:
+          - not_null
+
+      - name: raw_loaded_at
+        description: "Timestamp when the raw record was loaded into Snowflake."
+        data_tests:
+          - not_null
